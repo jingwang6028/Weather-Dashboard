@@ -1,0 +1,55 @@
+:root {
+  --dark: #032e42;
+  --blue: #084f93;
+  --grey: #7c7c7c;
+}
+
+header {
+  background-color: var(--blue);
+  color: white;
+  height: 70px;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  padding-top: 22px;
+}
+
+.card {
+  border: transparent;
+}
+.card-footer {
+  border-top: 0;
+}
+
+.search-label {
+  font-size: 25px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.card-header,
+.card-footer {
+  background-color: transparent;
+}
+.custom-btn {
+  height: 30px;
+  text-align: center;
+  background-color: #2196f3;
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.listBtn {
+  height: 30px;
+  text-align: center;
+  background-color: #7c7c7c;
+  border-radius: 5px;
+}
+
+#city-info {
+  border: 1px solid var(--dark);
+}

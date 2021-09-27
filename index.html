@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- style css -->
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <section class="col-12 col-md-4 col-lg-3">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <form action="">
+                                <label for="city-name" class="search-label">Search for a City:</label>
+                                <input type="text" id="city-name-input" class="form-control">
+                            </form>
+                        </div>
+                        <div class="card-footer d-grid">
+                            <button id="searchBtn" class="custom-btn" type="button">Search</button>
+                            <hr style="height: 2px;">
+
+                        </div>
+                        <div id="city-list">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">An item</li>
+                                <li class="list-group-item">A second item</li>
+                                <li class="list-group-item">A third item</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </section>
+                <section class="col-12 col-md-8 col-lg-9">
+                    <div class="d-flex flex-column">
+                        <div class="card">
+                            <div id="city-info">
+                                <div id="city-name" class="card-header">
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Temp:</li>
+                                    <li class="list-group-item">Wind:</li>
+                                    <li class="list-group-item">Humidity:</li>
+                                    <li class="list-group-item">UV Index:</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row" id="city-forecast">
+                            <div class="card col-lg-2"></div>
+                            <div class="card col-lg-2"></div>
+                            <div class="card col-lg-2"></div>
+                            <div class="card col-lg-2"></div>
+                            <div class="card col-lg-2"></div>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
