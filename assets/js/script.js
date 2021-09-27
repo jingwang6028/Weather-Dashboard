@@ -2,6 +2,12 @@ var apiKey = "5f5e0927811003462d3815d929284f6e";
 
 var cityNameInputEl = $("#city-name-input");
 var cityNameListEl = $("#cityNameList");
+var cityNameEl = $("#city-name");
+var tempEl = $("#temp");
+var windEl = $("#wind");
+var humidityEl = $("#humidity");
+var uvIndexEl = $("#uvIndex");
+// btn selector
 var searchBtnEl = $("#searchBtn");
 
 var city;
@@ -37,26 +43,60 @@ function fetchStorageCityInfo() {
     })
     .then(function (data) {
       console.log(data);
-      var cityWeather = {
-        cityName: data.name,
-        cityDate: convertToLocalDate(data.dt),
-        cityLon: data.coord.lon,
-        cityLat: data.coord.lat,
-        cityTemp: convertTempToF(data.main.temp).toFixed(2),
-        cityWind: convertWindToMPH(data.wind.speed).toFixed(2),
-        cityHumidity: data.main.humidity,
-      };
-      console.log(cityWeather);
+      displayCityWeatherInfo(data.name, data);
+      fetchAndDisplayUVIndex(data.coord.lon, data.coord.lat);
+      // var cityWeather = {
+      //   cityName: data.name,
+      //   cityDate: convertToLocalDate(data.dt),
+      //   weatherIcon: data.weather[0].icon,
+      //   cityLon: data.coord.lon,
+      //   cityLat: data.coord.lat,
+      //   cityTemp: convertTempToF(data.main.temp).toFixed(2),
+      //   cityWind: convertWindToMPH(data.wind.speed).toFixed(2),
+      //   cityHumidity: data.main.humidity,
+      // };
+      // console.log(cityWeather);
 
       // localStorage city weather
-      localStorage.setItem(cityWeather.cityName, JSON.stringify(cityWeather));
+      //localStorage.setItem(cityWeather.cityName, JSON.stringify(cityWeather));
     });
 }
 
-//get lon and lat info and fetch uv index data
-function fetchUVIndex() {}
+function displayCityWeatherInfo(cityName, dataInfo) {
+  var iconEl = $("<img>");
+  var iconCode = dataInfo.weather[0].icon;
+  var codeImage = "http://openweathermap.org/img/w/" + iconCode + ".png";
+  iconEl.attr("src", codeImage);
 
-// create list city button and add it to ul cityNameList
+  var cityNameHeader = cityName + " " + convertToLocalDate(dataInfo.dt);
+  cityNameEl.text(cityNameHeader);
+  cityNameEl.append(iconEl);
+  tempEl.text(convertTempToF(dataInfo.main.temp).toFixed(2) + "°F");
+  windEl.text(convertWindToMPH(dataInfo.wind.speed).toFixed(2) + " MPH");
+  humidityEl.text(dataInfo.main.humidity + " %");
+}
+
+//get lon and lat info and fetch uv index data and display
+function fetchAndDisplayUVIndex(lon, lat) {
+  queryUrlLonLat =
+    "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&exclude=daily&appid=" +
+    apiKey;
+
+  fetch(queryUrlLonLat)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      uvIndexEl.text(data.current.uvi);
+    });
+}
+
+// create list of city button and add it to ul cityNameList
 function addCityNameBtn() {
   var nameLiEl = $("<li>");
   nameLiEl.addClass("list-group-item");
@@ -73,21 +113,5 @@ searchBtnEl.on("click", submitCityInfo);
 function submitCityInfo(event) {
   fetchStorageCityInfo();
   addCityNameBtn();
-
-  //fetch UV Index data
-  //   queryUrlLonLat =
-  //     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-  //     cityWeather.cityLat +
-  //     "&lon=" +
-  //     cityWeather.cityLon +
-  //     "&exclude=daily&appid=" +
-  //     apiKey;
-
-  //   fetch(queryUrlLonLat)
-  //     .then(function (response) {
-  //       return response.json();
-  //     })
-  //     .then(function (data) {
-  //       console.log(data);
-  //     });
+  cityNameInputEl.val("");
 }

@@ -54,3 +54,8 @@ h1 {
 #city-info {
   border: 1px solid var(--dark);
 }
+
+#city-name {
+  font-size: 25px;
+  font-weight: bolder;
+}
