@@ -1,6 +1,7 @@
 var apiKey = "5f5e0927811003462d3815d929284f6e";
 
 var cityNameInputEl = $("#city-name-input");
+var cityNameListEl = $("#cityNameList");
 var searchBtnEl = $("#searchBtn");
 
 var city;
@@ -19,10 +20,8 @@ function convertToLocalDate(unixTime) {
   return new Date(unixTime * 1000).toLocaleDateString("en-US");
 }
 
-//search button add event listener
-searchBtnEl.on("click", submitCityInfo);
-
-function submitCityInfo(event) {
+//fetch and localStorage openWeather
+function fetchStorageCityInfo() {
   city = cityNameInputEl.val();
   console.log(city);
   queryUrlCity =
@@ -48,8 +47,32 @@ function submitCityInfo(event) {
         cityHumidity: data.main.humidity,
       };
       console.log(cityWeather);
+
+      // localStorage city weather
       localStorage.setItem(cityWeather.cityName, JSON.stringify(cityWeather));
     });
+}
+
+//get lon and lat info and fetch uv index data
+function fetchUVIndex() {}
+
+// create list city button and add it to ul cityNameList
+function addCityNameBtn() {
+  var nameLiEl = $("<li>");
+  nameLiEl.addClass("list-group-item");
+  var nameBtn = $("<button>");
+  nameBtn.addClass("listBtn");
+  nameBtn.text(city);
+  nameLiEl.append(nameBtn);
+  cityNameListEl.append(nameLiEl);
+}
+
+//search button add event listener
+searchBtnEl.on("click", submitCityInfo);
+
+function submitCityInfo(event) {
+  fetchStorageCityInfo();
+  addCityNameBtn();
 
   //fetch UV Index data
   //   queryUrlLonLat =
