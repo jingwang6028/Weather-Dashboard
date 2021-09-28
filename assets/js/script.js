@@ -1,5 +1,5 @@
 var apiKey = "5f5e0927811003462d3815d929284f6e";
-
+//search display selector
 var cityNameInputEl = $("#city-name-input");
 var cityNameListEl = $("#cityNameList");
 var cityNameEl = $("#city-name");
@@ -7,18 +7,21 @@ var tempEl = $("#temp");
 var windEl = $("#wind");
 var humidityEl = $("#humidity");
 var uvIndexEl = $("#uvIndex");
+var searchBtnEl = $("#searchBtn");
+var displaySectionEl = $(".display-section");
+// forecast display selector
 var forecastDateEl = $(".forecastDate");
 var forecastIconEl = $(".forecastIcon");
 var forecastTempEl = $(".forecastTemp");
 var forecastWindEl = $(".forecastWind");
 var forecastHumidityEl = $(".forecastHumidity");
-// btn selector
-var searchBtnEl = $("#searchBtn");
 
 var city;
 var queryUrl;
 var queryUrlLonLat;
 var day;
+var citySearch;
+var searchHistory = [];
 
 // functions to convert openWeather data to readable data format
 function convertTempToF(K) {
@@ -32,7 +35,7 @@ function convertToLocalDate(unixTime) {
   return new Date(unixTime * 1000).toLocaleDateString("en-US");
 }
 
-//fetch and display openWeather
+//fetch and display city current weather info
 function fetchStorageCityInfo() {
   city = cityNameInputEl.val();
   console.log(city);
@@ -51,6 +54,7 @@ function fetchStorageCityInfo() {
       console.log(data);
       displayCityWeatherInfo(data.name, data);
       fetchAndDisplayUVIndex(data.coord.lon, data.coord.lat);
+
       // var cityWeather = {
       //   cityName: data.name,
       //   cityDate: convertToLocalDate(data.dt),
@@ -120,6 +124,7 @@ function forecast5day() {
     });
 }
 
+//display 5 days weather forecast
 function display5dayForecast(dataList) {
   //each day 9am forecast weather list
   listNum = [2, 10, 18, 26, 34];
@@ -167,6 +172,8 @@ function addCityNameBtn() {
 searchBtnEl.on("click", submitCityInfo);
 
 function submitCityInfo(event) {
+  event.preventDefault();
+  displaySectionEl.removeClass("hide");
   fetchStorageCityInfo();
   addCityNameBtn();
   cityNameInputEl.val("");

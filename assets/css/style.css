@@ -69,6 +69,10 @@ h2 {
   margin-top: 20px;
 }
 
+#uvIndex {
+  display: inline-block;
+}
+
 .col-lg-2,
 .col-lg-2 .list-group-item {
   border: 2px solid var(--dark);
@@ -88,4 +92,28 @@ h2 {
 
 .forecastIcon {
   padding: 0;
+}
+
+.hide {
+  display: none;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.red {
+  background-color: red;
+}
+
+.violet {
+  background-color: violet;
 }
