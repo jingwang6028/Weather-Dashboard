@@ -7,12 +7,18 @@ var tempEl = $("#temp");
 var windEl = $("#wind");
 var humidityEl = $("#humidity");
 var uvIndexEl = $("#uvIndex");
+var forecastDateEl = $(".forecastDate");
+var forecastIconEl = $(".forecastIcon");
+var forecastTempEl = $(".forecastTemp");
+var forecastWindEl = $(".forecastWind");
+var forecastHumidityEl = $(".forecastHumidity");
 // btn selector
 var searchBtnEl = $("#searchBtn");
 
 var city;
 var queryUrl;
 var queryUrlLonLat;
+var day;
 
 // functions to convert openWeather data to readable data format
 function convertTempToF(K) {
@@ -26,7 +32,7 @@ function convertToLocalDate(unixTime) {
   return new Date(unixTime * 1000).toLocaleDateString("en-US");
 }
 
-//fetch and localStorage openWeather
+//fetch and display openWeather
 function fetchStorageCityInfo() {
   city = cityNameInputEl.val();
   console.log(city);
@@ -96,6 +102,56 @@ function fetchAndDisplayUVIndex(lon, lat) {
     });
 }
 
+//fetch 5 days forecast data
+function forecast5day() {
+  var forecastUrl =
+    "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    city +
+    "&appid=" +
+    apiKey;
+
+  fetch(forecastUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      display5dayForecast(data.list);
+    });
+}
+
+function display5dayForecast(dataList) {
+  //each day 9am forecast weather list
+  listNum = [2, 10, 18, 26, 34];
+  forecastDateEl
+    .each(function (index) {
+      $(this).text(convertToLocalDate(dataList[listNum[index]].dt));
+    })
+    .addClass("h3");
+  forecastIconEl.each(function (index) {
+    var icon = dataList[listNum[index]].weather[0].icon;
+    var image = "http://openweathermap.org/img/w/" + icon + ".png";
+    $(this).children().attr("src", image);
+  });
+  forecastTempEl.each(function (index) {
+    $(this).text(
+      "Temp: " +
+        convertTempToF(dataList[listNum[index]].main.temp).toFixed(2) +
+        "°F"
+    );
+  });
+  forecastWindEl.each(function (index) {
+    $(this).text(
+      "Wind: " +
+        convertWindToMPH(dataList[listNum[index]].wind.speed).toFixed(2) +
+        " MPH"
+    );
+  });
+  forecastHumidityEl.each(function (index) {
+    $(this).text("Humidity: " + dataList[listNum[index]].main.humidity + " %");
+  });
+}
+
 // create list of city button and add it to ul cityNameList
 function addCityNameBtn() {
   var nameLiEl = $("<li>");
@@ -114,4 +170,5 @@ function submitCityInfo(event) {
   fetchStorageCityInfo();
   addCityNameBtn();
   cityNameInputEl.val("");
+  forecast5day();
 }

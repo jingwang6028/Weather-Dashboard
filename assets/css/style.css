@@ -17,6 +17,11 @@ h1 {
   padding-top: 22px;
 }
 
+h2 {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
 .card {
   border: transparent;
 }
@@ -58,4 +63,29 @@ h1 {
 #city-name {
   font-size: 25px;
   font-weight: bolder;
+}
+
+#city-forecast {
+  margin-top: 20px;
+}
+
+.col-lg-2,
+.col-lg-2 .list-group-item {
+  border: 2px solid var(--dark);
+  background-color: var(--dark);
+  color: aliceblue;
+}
+
+.custom-margin {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.h3 {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.forecastIcon {
+  padding: 0;
 }
